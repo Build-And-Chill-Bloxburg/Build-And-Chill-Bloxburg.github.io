@@ -1,0 +1,275 @@
+<!-- Made with ❤️ by Markus -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Build & Chill: Bloxburg community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2rem;
+            display: none;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        nav ul li a:hover {
+            color: #ff5722;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ff5722;
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        section {
+            padding: 3rem 0;
+            background-color: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .gallery img {
+            width: 30%;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .team-section {
+            margin-top: 30px;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap; 
+        }
+
+        .team-member {
+            text-align: center;
+            width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .team-member img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 3px solid #333;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            color: #777;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="https://cdn.discordapp.com/icons/1350536739902460017/1e9831e1675906ab1762faeead8604f9.webp?size=96" alt="Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#builds">Builds</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="https://discord.gg/zZXAB39Q8c" target="_blank">Discord</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>Welcome to our Build & Chill: Bloxburg community! We specialize in creating amazing houses and more within the Bloxburg game. Join us and be part of the creative journey!</p>
+        </div>
+    </section>
+
+    <section id="builds" class="section">
+        <div class="container">
+            <h2>Our Builds</h2>
+            <div class="gallery">
+                <img src="https://cdn.discordapp.com/attachments/1350609954045689887/1350897504903757955/image.png?ex=67d868d7&is=67d71757&hm=151083c6230cb67ecf3c42b102187d61c1da69e72988bc51b7fbc1ff89d3d329&" alt="Build 1">
+                <img src="build2.jpg" alt="Build 2">
+                <img src="build3.jpg" alt="Build 3">
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="section">
+        <div class="container">
+            <h2>Our Team</h2>
+            <div class="team-section">
+                <h3>Owners</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <img src="https://cdn.discordapp.com/avatars/1320394183164559390/25d5ef7ba1e315e84e7948309fbd5d48.webp?size=512" alt="Kylie Ann">
+                        <h3>Kylie Ann</h3>
+                        <p>Owner</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://cdn.discordapp.com/avatars/592419760893853698/553a96d1d6dc931f5cf37ab68509bdff.webp?size=512" alt="yTriks">
+                        <h3>yTriks</h3>
+                        <p>Owner</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-section">
+                <h3>Co-Owners</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <img src="https://cdn.discordapp.com/avatars/1345821825862729739/a_5a66fc9f654d30687db00d9f62c266c3.gif?size=512" alt="BloxDev">
+                        <h3>BloxDev</h3>
+                        <p>Co-Owner</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://cdn.discordapp.com/avatars/793607161908297789/27216144b906b997ce6fcc096259808e.webp?size=512" alt="operaHaus">
+                        <h3>operaHaus</h3>
+                        <p>Co-Owner</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-section">
+                <h3>Developers</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <img src="https://cdn.discordapp.com/avatars/907658850163916811/79d795cc22fbfcff16782684aa4cd5f5.webp?size=512" alt="MarkusHD_real">
+                        <h3>MarkusHD_real</h3>
+                        <p>Developer</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Build & Chill: Bloxburg community. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log("Welcome to the Build & Chill: Bloxburg community Website!");
+    </script>
+</body>
+</html>
+
+<!-- Made with ❤️ by Markus --!>
