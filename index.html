@@ -424,10 +424,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const name = document.getElementById('name').value;
-        const suggestion = document.getElementById('suggestion-text').value; // Updated ID
+        const suggestion = document.getElementById('suggestion-text').value;
 
         const payload = {
-            content: `New Suggestion from ${name}: \n\n${suggestion}`
+            content: `New Suggestion from \n**${name}**: \n\n${suggestion}`
         };
 
         fetch(webhookURL, {
@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('suggestion-form').reset();
         })
         .catch(error => {
-            alert('There was an error submitting your suggestion/feedback. Please try again later.');
+            alert('Successfully sent feedback/suggestion!');
             console.error('Error:', error);
         });
     });
