@@ -1,7 +1,23 @@
+
 <!-- Made with ❤️ by Markus -->
 
 <!DOCTYPE html>
 <html lang="en">
+<!-- General Meta Tags -->
+<meta name="title" content="Build & Chill: Bloxburg Community">
+<meta name="description" content="Join the best Bloxburg building community! Discover creative builds, meet talented builders, and get inspired.">
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://build-and-chill-bloxburg.github.io/">
+<meta property="og:title" content="Build & Chill: Bloxburg Community">
+<meta property="og:description" content="Join the best Bloxburg building community! Discover creative builds, meet talented builders, and get inspired.">
+<meta property="og:image" content="https://cdn.discordapp.com/attachments/1350609954045689887/1350897504903757955/image.png">
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://build-and-chill-bloxburg.github.io/">
+<meta property="twitter:title" content="Build & Chill: Bloxburg Community">
+<meta property="twitter:description" content="Join the best Bloxburg building community! Discover creative builds, meet talented builders, and get inspired.">
+<meta property="twitter:image" content="https://cdn.discordapp.com/attachments/1350609954045689887/1350897504903757955/image.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -237,6 +253,68 @@ footer p {
         }
 }
 
+#suggestion {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#suggestion h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    color: #222;
+    margin-bottom: 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+input, textarea {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #ff5722;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 1rem;
+    font-size: 1.1rem;
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+button:active {
+    background-color: #d84315;
+}
     </style>
 </head>
 <body>
@@ -271,6 +349,22 @@ footer p {
             </div>
         </div>
     </section>
+
+    <section id="suggestion" class="section">
+      <div class="container">
+        <h2>Send Us Your Suggestion or Feedback!</h2>
+          <form id="suggestion-form">
+              <label for="name">Your Name:</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+
+              <label for="suggestion">Suggestion/Feedback:</label>
+              <textarea id="suggestion" name="suggestion" rows="5" required placeholder="Your suggestion/feedback here"></textarea>
+
+              <button type="submit">Submit Suggestion/Feedback</button>
+          </form>
+      </div>
+  </section>
+
 
     <section id="team" class="section">
         <div class="container">
@@ -323,7 +417,38 @@ footer p {
     </footer>
 
     <script>
-        console.log("Welcome to the Build & Chill: Bloxburg community Website!");
+<script>
+    const webhookURL = 'https://discord.com/api/webhooks/1351172842971988059/hzBkMUmZAKswTE7v1Fjy8LLHL6rmTtyvOZoAd8fP8c_Jsl43cXCm7PrJ_leLQWIh6GcS';
+
+    document.getElementById('suggestion-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const suggestion = document.getElementById('suggestion').value;
+
+        const payload = {
+            content: `New Suggestion from ${name}: \n\n${suggestion}`
+        };
+
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Your suggestion/feedback has been sent successfully!');
+            document.getElementById('suggestion-form').reset();
+        })
+        .catch(error => {
+            alert('There was an error submitting your suggestion/feedback. Please try again later.');
+            console.error('Error:', error);
+        });
+    });
+</script>
+
     </script>
 </body>
 </html>
