@@ -417,6 +417,7 @@ button:active {
     </footer>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     const webhookURL = 'https://discord.com/api/webhooks/1351172842971988059/hzBkMUmZAKswTE7v1Fjy8LLHL6rmTtyvOZoAd8fP8c_Jsl43cXCm7PrJ_leLQWIh6GcS';
 
     document.getElementById('suggestion-form').addEventListener('submit', function(event) {
@@ -446,6 +447,7 @@ button:active {
             console.error('Error:', error);
         });
     });
+});
 </script>
 </body>
 </html>
