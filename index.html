@@ -350,20 +350,20 @@ button:active {
         </div>
     </section>
 
-    <section id="suggestion" class="section">
-      <div class="container">
-        <h2>Send Us Your Suggestion or Feedback!</h2>
-          <form id="suggestion-form">
-              <label for="name">Your Name:</label>
-              <input type="text" id="name" name="name" required placeholder="Your name" />
+<section id="suggestion" class="section">
+  <div class="container">
+    <h2>Send Us Your Suggestion or Feedback!</h2>
+    <form id="suggestion-form">
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required placeholder="Your name" />
 
-              <label for="suggestion">Suggestion/Feedback:</label>
-              <textarea id="suggestion" name="suggestion" rows="5" required placeholder="Your suggestion/feedback here"></textarea>
+      <label for="suggestion-text">Suggestion/Feedback:</label>
+      <textarea id="suggestion-text" name="suggestion" rows="5" required placeholder="Your suggestion/feedback here"></textarea>
 
-              <button type="submit">Submit Suggestion/Feedback</button>
-          </form>
-      </div>
-  </section>
+      <button type="submit">Submit Suggestion/Feedback</button>
+    </form>
+  </div>
+</section>
 
 
     <section id="team" class="section">
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const name = document.getElementById('name').value;
-        const suggestion = document.getElementById('suggestion').value;
+        const suggestion = document.getElementById('suggestion-text').value; // Updated ID
 
         const payload = {
             content: `New Suggestion from ${name}: \n\n${suggestion}`
