@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const suggestion = document.getElementById('suggestion-text').value;
 
         const payload = {
-            content: `New Suggestion from \n**${name}**: \n\n${suggestion}`
+            content: `New Suggestion/Feedback from \n**${name}**: \n\n${suggestion}`
         };
 
         fetch(webhookURL, {
