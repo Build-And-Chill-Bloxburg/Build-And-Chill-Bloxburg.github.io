@@ -443,6 +443,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = document.getElementById('name').value;
         const suggestion = document.getElementById('suggestion-text').value;
 
+        if (!name || !suggestion) {
+            alert('Please fill out all fields.');
+            return;
+        }
+
         const payload = {
             content: `New Suggestion/Feedback from \n**${name}**: \n\n${suggestion}`
         };
@@ -454,14 +459,18 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(payload)
         })
-        .then(response => response.json())
-        .then(data => {
-            alert('Your suggestion/feedback has been sent successfully!');
-            document.getElementById('suggestion-form').reset();
+        .then(response => {
+            if (response.ok) {
+                alert('Your suggestion/feedback has been sent successfully!');
+                document.getElementById('suggestion-form').reset();
+            } else {
+                console.error(`Failed with status: ${response.status}`);
+                alert(`Failed to send: ${response.statusText}`);
+            }
         })
         .catch(error => {
-            alert('Successfully sent feedback/suggestion!');
             console.error('Error:', error);
+            alert('Failed to send feedback/suggestion. Please try again later.');
         });
     });
 });
