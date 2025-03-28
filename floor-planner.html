@@ -25,36 +25,27 @@
             border: 1px solid #ccc;
             cursor: crosshair;
         }
-        #grid-toggle {
-            margin-bottom: 10px;
+        #grid-toggle, #undo, #redo, #color-picker-btn {
+            margin: 5px;
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
             font-size: 16px;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
         }
         #grid-toggle.active {
             background-color: #f44336;
-        }
-        #undo-redo {
-            margin-top: 10px;
-        }
-        #undo-redo button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            font-size: 16px;
-            cursor: pointer;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <button id="grid-toggle">Toggle Grid</button>
-        <div id="undo-redo">
-            <button id="undo">Undo (Ctrl + Z)</button>
-            <button id="redo">Redo (Ctrl + Y)</button>
-        </div>
+        <button id="color-picker-btn">Switch Color</button>
+        <input type="color" id="color-picker" value="#000000" style="display: none;">
+        <button id="undo">Undo (Ctrl + Z)</button>
+        <button id="redo">Redo (Ctrl + Y)</button>
         <canvas id="floor-plan" width="600" height="600"></canvas>
     </div>
 
@@ -64,6 +55,8 @@
         const gridToggle = document.getElementById('grid-toggle');
         const undoButton = document.getElementById('undo');
         const redoButton = document.getElementById('redo');
+        const colorPicker = document.getElementById('color-picker');
+        const colorPickerBtn = document.getElementById('color-picker-btn');
 
         const gridSize = 30;
         let showGrid = true;
@@ -72,6 +65,15 @@
         let redoStack = [];
         let dragging = false;
         let startX, startY, previewWall = null;
+        let currentColor = colorPicker.value;
+
+        colorPicker.addEventListener('input', (e) => {
+            currentColor = e.target.value;
+        });
+
+        colorPickerBtn.addEventListener('click', () => {
+            colorPicker.click();
+        });
 
         function snapToGrid(x, y) {
             return {
@@ -98,9 +100,9 @@
         }
 
         function drawWalls() {
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 4;
             walls.forEach(wall => {
+                ctx.strokeStyle = wall.color;
+                ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(wall.start.x, wall.start.y);
                 ctx.lineTo(wall.end.x, wall.end.y);
@@ -110,7 +112,6 @@
 
         function saveState() {
             undoStack.push(JSON.parse(JSON.stringify(walls)));
-            if (undoStack.length > 50) undoStack.shift();
             redoStack = [];
         }
 
@@ -118,8 +119,9 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (showGrid) drawGrid();
             drawWalls();
+
             if (dragging && previewWall) {
-                ctx.strokeStyle = 'rgba(51, 51, 51, 0.5)';
+                ctx.strokeStyle = currentColor;
                 ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(previewWall.start.x, previewWall.start.y);
@@ -134,7 +136,7 @@
             startX = pos.x;
             startY = pos.y;
             dragging = true;
-            previewWall = { start: { x: startX, y: startY }, end: { x: startX, y: startY } };
+            previewWall = { start: { x: startX, y: startY }, end: { x: startX, y: startY }, color: currentColor };
         });
 
         canvas.addEventListener('mousemove', (e) => {
@@ -147,14 +149,13 @@
         });
 
         canvas.addEventListener('mouseup', () => {
-            if (!dragging) return;
-            if (previewWall.start.x !== previewWall.end.x || previewWall.start.y !== previewWall.end.y) {
+            if (dragging) {
                 walls.push(JSON.parse(JSON.stringify(previewWall)));
                 saveState();
+                previewWall = null;
+                dragging = false;
+                drawCanvas();
             }
-            dragging = false;
-            previewWall = null;
-            drawCanvas();
         });
 
         gridToggle.addEventListener('click', () => {
@@ -164,26 +165,25 @@
         });
 
         undoButton.addEventListener('click', () => {
-            if (undoStack.length > 0) {
+            if (undoStack.length) {
                 redoStack.push(JSON.parse(JSON.stringify(walls)));
-                walls = JSON.parse(JSON.stringify(undoStack.pop()));
+                walls = undoStack.pop();
                 drawCanvas();
             }
         });
 
         redoButton.addEventListener('click', () => {
-            if (redoStack.length > 0) {
+            if (redoStack.length) {
                 undoStack.push(JSON.parse(JSON.stringify(walls)));
-                walls = JSON.parse(JSON.stringify(redoStack.pop()));
+                walls = redoStack.pop();
                 drawCanvas();
             }
         });
 
         window.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && !e.altKey && !e.metaKey) {
+            if (e.ctrlKey) {
                 if (e.key === 'z') undoButton.click();
-                else if (e.key === 'y') redoButton.click();
-                e.preventDefault();
+                if (e.key === 'y') redoButton.click();
             }
         });
 
@@ -192,4 +192,4 @@
 </body>
 </html>
 
-<!-- Made with ♥️ by Markus --!>
+<!-- Made with ♥️ by Markus -->
