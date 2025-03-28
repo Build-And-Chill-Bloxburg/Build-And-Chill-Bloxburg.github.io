@@ -1,0 +1,195 @@
+<!-- Made with ♥️ by Markus -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Floor Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        canvas {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: crosshair;
+        }
+        #grid-toggle {
+            margin-bottom: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #grid-toggle.active {
+            background-color: #f44336;
+        }
+        #undo-redo {
+            margin-top: 10px;
+        }
+        #undo-redo button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="grid-toggle">Toggle Grid</button>
+        <div id="undo-redo">
+            <button id="undo">Undo (Ctrl + Z)</button>
+            <button id="redo">Redo (Ctrl + Y)</button>
+        </div>
+        <canvas id="floor-plan" width="600" height="600"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('floor-plan');
+        const ctx = canvas.getContext('2d');
+        const gridToggle = document.getElementById('grid-toggle');
+        const undoButton = document.getElementById('undo');
+        const redoButton = document.getElementById('redo');
+
+        const gridSize = 30;
+        let showGrid = true;
+        let walls = [];
+        let undoStack = [];
+        let redoStack = [];
+        let dragging = false;
+        let startX, startY, previewWall = null;
+
+        function snapToGrid(x, y) {
+            return {
+                x: Math.round(x / gridSize) * gridSize,
+                y: Math.round(y / gridSize) * gridSize
+            };
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x <= canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y <= canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawWalls() {
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 4;
+            walls.forEach(wall => {
+                ctx.beginPath();
+                ctx.moveTo(wall.start.x, wall.start.y);
+                ctx.lineTo(wall.end.x, wall.end.y);
+                ctx.stroke();
+            });
+        }
+
+        function saveState() {
+            undoStack.push(JSON.parse(JSON.stringify(walls)));
+            if (undoStack.length > 50) undoStack.shift();
+            redoStack = [];
+        }
+
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (showGrid) drawGrid();
+            drawWalls();
+            if (dragging && previewWall) {
+                ctx.strokeStyle = 'rgba(51, 51, 51, 0.5)';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(previewWall.start.x, previewWall.start.y);
+                ctx.lineTo(previewWall.end.x, previewWall.end.y);
+                ctx.stroke();
+            }
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const pos = snapToGrid(e.clientX - rect.left, e.clientY - rect.top);
+            startX = pos.x;
+            startY = pos.y;
+            dragging = true;
+            previewWall = { start: { x: startX, y: startY }, end: { x: startX, y: startY } };
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!dragging) return;
+            const rect = canvas.getBoundingClientRect();
+            const pos = snapToGrid(e.clientX - rect.left, e.clientY - rect.top);
+            previewWall.end.x = pos.x;
+            previewWall.end.y = pos.y;
+            drawCanvas();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            if (!dragging) return;
+            if (previewWall.start.x !== previewWall.end.x || previewWall.start.y !== previewWall.end.y) {
+                walls.push(JSON.parse(JSON.stringify(previewWall)));
+                saveState();
+            }
+            dragging = false;
+            previewWall = null;
+            drawCanvas();
+        });
+
+        gridToggle.addEventListener('click', () => {
+            showGrid = !showGrid;
+            gridToggle.classList.toggle('active', showGrid);
+            drawCanvas();
+        });
+
+        undoButton.addEventListener('click', () => {
+            if (undoStack.length > 0) {
+                redoStack.push(JSON.parse(JSON.stringify(walls)));
+                walls = JSON.parse(JSON.stringify(undoStack.pop()));
+                drawCanvas();
+            }
+        });
+
+        redoButton.addEventListener('click', () => {
+            if (redoStack.length > 0) {
+                undoStack.push(JSON.parse(JSON.stringify(walls)));
+                walls = JSON.parse(JSON.stringify(redoStack.pop()));
+                drawCanvas();
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && !e.altKey && !e.metaKey) {
+                if (e.key === 'z') undoButton.click();
+                else if (e.key === 'y') redoButton.click();
+                e.preventDefault();
+            }
+        });
+
+        drawCanvas();
+    </script>
+</body>
+</html>
+
+<!-- Made with ♥️ by Markus --!>
